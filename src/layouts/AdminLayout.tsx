@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import "@/styles/globals.css";
 import SideBar from "@/components/SideBar";
+import "@/styles/globals.css";
+import { ReactNode } from "react";
 
 const AdminLayout = ({ children }: { children: ReactNode }) => {
   return (
