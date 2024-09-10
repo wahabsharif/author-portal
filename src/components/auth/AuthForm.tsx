@@ -41,10 +41,12 @@ function AuthForm() {
       }}
     >
       <div className="bg-white bg-white/30 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm p-8">
-        <h2 className="text-2xl font-semibold text-gray-900 text-center">
+        <h2 className="text-3xl tracking-widest font-semibold text-gray-900 text-center">
           Author
         </h2>
-        <p className="text-xl text-gray-800 text-center">Welcome back!</p>
+        <p className="text-xl text-slate-900 font-bold text-center">
+          Welcome back!
+        </p>
 
         {errorMessage && (
           <p className="text-red-500 text-center mt-2">{errorMessage}</p>
