@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 import md5 from "md5";
 import users from "@/data/users";
 
 function AuthForm() {
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -21,20 +20,15 @@ function AuthForm() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Hash the entered password
     const hashedPassword = md5(password);
 
-    // Find the user in the dummy data
     const user = users.find(
       (user) => user.email === email && user.password === hashedPassword
     );
 
     if (user) {
-      // Simulate successful login
-      localStorage.setItem("isLoggedIn", "true");
-      router.push("/dashboard");
+      login("dummyToken");
     } else {
-      // If no user is found, show an error message
       setErrorMessage("Invalid email or password");
     }
   };
@@ -46,7 +40,6 @@ function AuthForm() {
         backgroundImage: "url('/assets/images/auth-library-image.jpg')",
       }}
     >
-      {/* Form */}
       <div className="bg-white bg-white/30 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm p-8">
         <h2 className="text-2xl font-semibold text-gray-900 text-center">
           Author
@@ -71,14 +64,9 @@ function AuthForm() {
             />
           </div>
           <div className="mt-4">
-            <div className="flex justify-between items-center">
-              <label className="block text-gray-900 text-sm font-bold mb-2">
-                Password
-              </label>
-              <Link href="#" className="text-xs text-gray-800">
-                Forget Password?
-              </Link>
-            </div>
+            <label className="block text-gray-900 text-sm font-bold mb-2">
+              Password
+            </label>
             <div className="relative">
               <input
                 className="bg-gray-200 text-gray-900 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"

@@ -2,6 +2,7 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("dummyToken");
+    const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
     } else {
@@ -24,16 +25,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const login = (token: string = "dummyToken") => {
-    localStorage.setItem("dummyToken", token);
+  const login = (token: string) => {
+    localStorage.setItem("token", token);
     setIsAuthenticated(true);
     router.push("/");
   };
 
-  const logout = () => {
-    localStorage.removeItem("dummyToken");
-    setIsAuthenticated(false);
-    router.push("/auth");
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.post(
+          `/api/auth/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Failed to log out:", error);
+    } finally {
+      localStorage.removeItem("token");
+      setIsAuthenticated(false);
+      router.push("/");
+    }
   };
 
   return (
