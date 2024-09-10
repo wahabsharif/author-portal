@@ -54,6 +54,19 @@ const users: User[] = [
     lastLoggedIn: new Date("2023-08-20"),
     status: "Active",
   },
+  {
+    id: 4,
+    email: "admin@admin.com",
+    password: md5("admin1122"),
+    firstName: "Alice",
+    middleName: "C.",
+    lastName: "Johnson",
+    penName: "AJohnsonTales",
+    telNo: "555-123-4567",
+    signupDate: new Date("2023-05-10"),
+    lastLoggedIn: new Date("2023-08-20"),
+    status: "Active",
+  },
 ];
 
 export default users;
