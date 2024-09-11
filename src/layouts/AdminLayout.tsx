@@ -8,7 +8,7 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
     <ProtectedRoute>
       <div className="flex h-screen">
         <SideBar />
-        <main className="min-h-screen w-full p-4 sm:ml-44">{children}</main>
+        <main className="min-h-screen w-full p-4">{children}</main>
       </div>
     </ProtectedRoute>
   );
