@@ -1,19 +1,19 @@
+// src/components/SideBar/index.tsx
+
 "use client";
+import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
 import React, { useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { FaBook, FaUsers } from "react-icons/fa6";
-import { GoHomeFill } from "react-icons/go";
-import { FaSignOutAlt, FaCog } from "react-icons/fa";
-import LogoutButton from "./LogoutButton";
+import { FaChevronLeft, FaChevronRight, FaSignOutAlt } from "react-icons/fa";
+import { menuItems, botMenuItems } from "@/data/sideBarData";
 
 const SideBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const { logout } = useAuth();
 
-  const menuItems = [
-    { icon: <GoHomeFill />, label: "Dashboard" },
-    { icon: <FaUsers />, label: "Authors" },
-    { icon: <FaBook />, label: "Books" },
-  ];
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <aside className=" flex flex-col rounded-r-xl h-screen ">
@@ -22,37 +22,43 @@ const SideBar: React.FC = () => {
           isOpen ? "w-48" : "w-16"
         }`}
       >
-        <ul className="relative space-y-2 mt-2">
+        <div className="relative space-y-2 mt-2">
           {menuItems.map((item, index) => (
-            <li
+            <Link
+              href={item.link}
               key={index}
-              className="flex items-center space-x-4 text-white cursor-pointer p-4 hover:bg-gray-700 transition-all duration-300"
+              className="flex items-center space-x-4 text-white cursor-pointer p-4 rounded-xl hover:bg-gray-700 transition-all duration-300"
             >
               <span className="text-xl">{item.icon}</span>
               {isOpen && (
                 <span className="whitespace-nowrap">{item.label}</span>
               )}
-            </li>
+            </Link>
           ))}
-        </ul>
-        <ul className="absolute bottom-6 w-full border-t border-slate-400">
-          <li className="flex items-center space-x-4 text-white cursor-pointer p-4 hover:bg-gray-700 transition-all duration-300">
-            <span className="text-xl">
-              <FaCog />
-            </span>
-            {isOpen && <span className="whitespace-nowrap">Settings</span>}
-          </li>
-          <li className="flex items-center space-x-4 text-white cursor-pointer p-4 hover:bg-gray-700 transition-all duration-300">
+        </div>
+        <div className="absolute bottom-4 w-full border-t border-slate-400">
+          {botMenuItems.map((item, index) => (
+            <Link
+              href={item.link}
+              key={index}
+              className="flex items-center space-x-4 text-white cursor-pointer p-4 rounded-xl hover:bg-gray-700 transition-all duration-300"
+            >
+              <span className="text-xl">{item.icon}</span>
+              {isOpen && (
+                <span className="whitespace-nowrap">{item.label}</span>
+              )}
+            </Link>
+          ))}
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-4 w-full text-white cursor-pointer p-4 rounded-xl hover:bg-gray-700 transition-all duration-300"
+          >
             <span className="text-xl">
               <FaSignOutAlt />
             </span>
-            {isOpen && (
-              <span className="whitespace-nowrap">
-                <LogoutButton />
-              </span>
-            )}
-          </li>
-        </ul>
+            {isOpen && <span className="whitespace-nowrap">Logout</span>}
+          </button>
+        </div>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="absolute top-4 -right-3 bg-gray-800 text-white p-2 rounded-full border-white border-2"
