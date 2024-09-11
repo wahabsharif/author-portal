@@ -18,7 +18,7 @@ const SideBar: React.FC = () => {
   return (
     <aside className=" flex flex-col rounded-r-xl h-screen ">
       <div
-        className={`relative h-full bg-gray-800 transition-all duration-300 ${
+        className={`relative h-full bg-cyan-950 rounded-r-xl transition-all duration-300 ${
           isOpen ? "w-48" : "w-16"
         }`}
       >
