@@ -46,7 +46,7 @@ function AuthForm() {
           quality={100}
         />
       </div>
-      <div className="relative z-10 bg-white/30 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto max-w-md p-8">
+      <div className="relative z-10 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto w-[400px] p-8">
         <h2 className="text-3xl tracking-widest font-semibold text-gray-900 text-center">
           Author
         </h2>
@@ -62,8 +62,9 @@ function AuthForm() {
               Email Address
             </label>
             <input
-              className="bg-gray-200 text-gray-900 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+              className="bg-gray-200 text-gray-900 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-1 px-4 block w-full appearance-none"
               type="email"
+              placeholder="author@author.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -75,8 +76,9 @@ function AuthForm() {
             </label>
             <div className="relative">
               <input
-                className="bg-gray-200 text-gray-900 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                className="bg-gray-200 text-gray-900 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-1 px-4 block w-full appearance-none"
                 type={passwordVisible ? "text" : "password"}
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -97,7 +99,7 @@ function AuthForm() {
           <div className="mt-8">
             <button
               type="submit"
-              className="bg-gray-900 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
+              className="bg-gray-900 text-white tracking-widest py-2 px-4 w-full rounded hover:bg-gray-600"
             >
               Login
             </button>

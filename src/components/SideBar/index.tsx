@@ -22,7 +22,7 @@ const SideBar: React.FC = () => {
           isOpen ? "w-48" : "w-16"
         }`}
       >
-        <ul className="relative space-y-2 mt-6">
+        <ul className="relative space-y-2 mt-2">
           {menuItems.map((item, index) => (
             <li
               key={index}
