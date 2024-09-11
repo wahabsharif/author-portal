@@ -7,6 +7,7 @@ import md5 from "md5";
 import Image from "next/image";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import BlurFade from "@/components/magicui/blur-fade";
 
 function AuthForm() {
   const { login } = useAuth();
@@ -46,7 +47,11 @@ function AuthForm() {
           quality={100}
         />
       </div>
-      <div className="relative z-10 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto w-[400px] p-8">
+      <BlurFade
+        delay={0.25}
+        inView
+        className="relative z-10 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto w-[400px] p-8"
+      >
         <h2 className="text-3xl tracking-widest font-semibold text-gray-900 text-center">
           Author
         </h2>
@@ -105,7 +110,7 @@ function AuthForm() {
             </button>
           </div>
         </form>
-      </div>
+      </BlurFade>
     </section>
   );
 }
