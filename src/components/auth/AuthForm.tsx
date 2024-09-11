@@ -1,10 +1,12 @@
 "use client";
 
+import BookImage from "@/assets/images/books-image.jpg";
+import { useAuth } from "@/contexts/AuthContext";
+import users from "@/data/users";
+import md5 from "md5";
+import Image from "next/image";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useAuth } from "@/contexts/AuthContext";
-import md5 from "md5";
-import users from "@/data/users";
 
 function AuthForm() {
   const { login } = useAuth();
@@ -34,24 +36,26 @@ function AuthForm() {
   };
 
   return (
-    <section
-      className="w-full min-h-screen bg-no-repeat bg-center bg-cover flex justify-center items-center"
-      style={{
-        backgroundImage: "url('/assets/images/auth-library-image.jpg')",
-      }}
-    >
-      <div className="bg-white bg-white/30 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm p-8">
+    <section className="relative w-full min-h-screen bg-center bg-cover flex justify-center items-center">
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={BookImage}
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
+      <div className="relative z-10 bg-white/30 backdrop-blur-md rounded-lg shadow-lg overflow-hidden mx-auto max-w-md p-8">
         <h2 className="text-3xl tracking-widest font-semibold text-gray-900 text-center">
           Author
         </h2>
         <p className="text-xl text-slate-900 font-bold text-center">
           Welcome back!
         </p>
-
         {errorMessage && (
           <p className="text-red-500 text-center mt-2">{errorMessage}</p>
         )}
-
         <form onSubmit={handleLogin}>
           <div className="mt-4">
             <label className="block text-gray-900 text-sm font-bold mb-2">
