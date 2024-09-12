@@ -7,7 +7,7 @@ const menuItems = [
   {
     icon: React.createElement(GoHomeFill),
     label: "Dashboard",
-    link: "#",
+    link: "/",
   },
   {
     icon: React.createElement(FaUsers),
@@ -25,7 +25,7 @@ const botMenuItems = [
   {
     icon: React.createElement(FaCog),
     label: "Settings",
-    link: "#",
+    link: "/settings",
   },
 ];
 
