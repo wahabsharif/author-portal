@@ -30,9 +30,15 @@ function AuthForm() {
         }
       );
 
-      // Ensure a valid token is returned
-      if (response.data?.token) {
-        login(response.data.token);
+      // Ensure a valid token and user details are returned
+      if (response.data?.token && response.data?.author) {
+        const { token, author } = response.data;
+
+        // Use the login method from AuthProvider to store token and first name
+        login(token, author.first_name);
+
+        // Redirect or perform other actions on successful login
+        window.location.href = "/"; // Adjust to your needs
       } else {
         setErrorMessage("Invalid login response");
       }
@@ -44,6 +50,8 @@ function AuthForm() {
         } else {
           setErrorMessage("Something went wrong. Please try again.");
         }
+      } else {
+        setErrorMessage("An unexpected error occurred.");
       }
     }
   };

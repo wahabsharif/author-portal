@@ -1,11 +1,15 @@
-// src/components/SideBar/index.tsx
-
 "use client";
 import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaChevronLeft, FaChevronRight, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaSignOutAlt,
+  FaUserShield,
+} from "react-icons/fa";
 import { menuItems, botMenuItems } from "@/data/sideBarData";
+import CurrentLoginUserFirstName from "./CurrentLoginUserFirstName";
 
 const SideBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -16,12 +20,25 @@ const SideBar: React.FC = () => {
   };
 
   return (
-    <aside className=" flex flex-col rounded-r-xl h-screen ">
+    <aside className="flex flex-col rounded-r-xl h-screen">
       <div
         className={`relative h-full bg-cyan-950 rounded-r-xl transition-all duration-300 ${
           isOpen ? "w-48" : "w-16"
         }`}
       >
+        <button
+          onClick={handleLogout}
+          className="flex items-center space-x-4 w-full text-white cursor-pointer p-4 rounded-xl hover:bg-gray-700 transition-all duration-300"
+        >
+          <span className="text-xl">
+            <FaUserShield className="text-gray-300 text-2xl" />
+          </span>
+          {isOpen && (
+            <span className="whitespace-nowrap">
+              <CurrentLoginUserFirstName isOpen={isOpen} />
+            </span>
+          )}
+        </button>
         <div className="relative space-y-2 mt-2">
           {menuItems.map((item, index) => (
             <Link
