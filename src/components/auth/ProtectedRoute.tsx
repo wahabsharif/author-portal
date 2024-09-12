@@ -1,8 +1,11 @@
+// src/components/Auth/ProtectedRoute.tsx
+
 "use client";
 
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import "@/styles/globals.css";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
@@ -13,9 +16,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       router.push("/auth");
     }
   }, [isAuthenticated, router]);
+
   if (!isAuthenticated) {
     return null;
   }
+
   return <>{children}</>;
 };
 
