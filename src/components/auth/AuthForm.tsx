@@ -1,13 +1,12 @@
 "use client";
 
 import BookImage from "@/assets/images/books-image.jpg";
+import BlurFade from "@/components/magicui/blur-fade";
 import { useAuth } from "@/contexts/AuthContext";
-import users from "@/data/users";
-import md5 from "md5";
+import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import BlurFade from "@/components/magicui/blur-fade";
 
 function AuthForm() {
   const { login } = useAuth();
@@ -20,19 +19,32 @@ function AuthForm() {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}login`,
+        {
+          email,
+          password,
+        }
+      );
 
-    const hashedPassword = md5(password);
-
-    const user = users.find(
-      (user) => user.email === email && user.password === hashedPassword
-    );
-
-    if (user) {
-      login("dummyToken");
-    } else {
-      setErrorMessage("Invalid email or password");
+      // Ensure a valid token is returned
+      if (response.data?.token) {
+        login(response.data.token);
+      } else {
+        setErrorMessage("Invalid login response");
+      }
+    } catch (error: unknown) {
+      console.error("Login error:", error);
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setErrorMessage("Invalid email or password");
+        } else {
+          setErrorMessage("Something went wrong. Please try again.");
+        }
+      }
     }
   };
 
