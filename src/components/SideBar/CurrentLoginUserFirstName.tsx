@@ -17,8 +17,8 @@ const CurrentLoginUserFirstName: React.FC<
   }, []);
 
   return (
-    <div className="flex items-center justify-center mt-4">
-      <h1 className="text-xl font-bold text-gray-300">Welcome, {firstName}!</h1>
+    <div className="flex items-center justify-center">
+      <h1 className="text-xl font-bold text-gray-300">{firstName}!</h1>
     </div>
   );
 };
