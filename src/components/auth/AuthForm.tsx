@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { loginUser } from "@/redux/store/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import Image from "next/image";
+import { ClipLoader } from "react-spinners"; // Importing the spinner
 
 function AuthForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -41,9 +42,8 @@ function AuthForm() {
         <Image
           src={BookImage}
           alt="Background"
-          layout="fill"
-          objectFit="cover"
           quality={100}
+          className="h-full w-full"
         />
       </div>
       <BlurFade
@@ -103,10 +103,16 @@ function AuthForm() {
           <div className="mt-8">
             <button
               type="submit"
-              className="bg-gray-900 text-white tracking-widest py-2 px-4 w-full rounded hover:bg-gray-600"
+              className="bg-gray-900 text-white tracking-widest py-2 px-4 w-full rounded hover:bg-gray-600 flex items-center justify-center"
               disabled={loading}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? (
+                <>
+                  <ClipLoader size={20} color={"#ffffff"} />
+                </>
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
         </form>
