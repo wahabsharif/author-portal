@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/contexts/AuthContext";
+import { useDispatch } from "react-redux";
 import Link from "next/link";
 import React, { useState } from "react";
 import {
@@ -10,13 +10,15 @@ import {
 } from "react-icons/fa";
 import { menuItems, botMenuItems } from "@/data/sideBarData";
 import CurrentLoginUserFirstName from "./CurrentLoginUserFirstName";
+import { logout as reduxLogout } from "@/redux/store/authSlice"; // Import logout action
 
 const SideBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const { logout } = useAuth();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    logout();
+    // Dispatch the logout action to handle user logout
+    dispatch(reduxLogout());
   };
 
   return (

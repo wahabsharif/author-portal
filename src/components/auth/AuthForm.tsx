@@ -2,14 +2,17 @@
 
 import BookImage from "@/assets/images/books-image.jpg";
 import BlurFade from "@/components/magicui/blur-fade";
-import { useAuth } from "@/contexts/AuthContext";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { login as reduxLogin } from "@/redux/store/authSlice";
 
 function AuthForm() {
-  const { login } = useAuth();
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -34,11 +37,13 @@ function AuthForm() {
       if (response.data?.token && response.data?.author) {
         const { token, author } = response.data;
 
-        // Use the login method from AuthProvider to store token and first name
-        login(token, author.first_name);
+        // Dispatch login action with Redux
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("first_name", author.first_name);
+        dispatch(reduxLogin({ firstName: author.first_name }));
 
-        // Redirect or perform other actions on successful login
-        window.location.href = "/"; // Adjust to your needs
+        // Redirect to the home page or perform other actions on successful login
+        router.push("/");
       } else {
         setErrorMessage("Invalid login response");
       }

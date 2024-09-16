@@ -1,14 +1,13 @@
 // src/components/Auth/ProtectedRoute.tsx
-
 "use client";
 
 import React from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 import { useRouter } from "next/navigation";
-import "@/styles/globals.css";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
   React.useEffect(() => {

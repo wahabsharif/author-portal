@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import { AuthProvider } from "@/contexts/AuthContext";
+// import { AuthProvider } from "@/contexts/AuthContext";
+import ReduxProvider from "../redux/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Author Portal",
@@ -14,7 +15,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        {/* <AuthProvider></AuthProvider> */}
+        <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
   );
