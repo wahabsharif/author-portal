@@ -2,63 +2,37 @@
 
 import BookImage from "@/assets/images/books-image.jpg";
 import BlurFade from "@/components/magicui/blur-fade";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { login as reduxLogin } from "@/redux/store/authSlice";
+import { loginUser } from "@/redux/store/authSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import Image from "next/image";
 
 function AuthForm() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { loading } = useSelector((state: RootState) => state.auth);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}login`,
-        {
-          email,
-          password,
-        }
-      );
-
-      // Ensure a valid token and user details are returned
-      if (response.data?.token && response.data?.author) {
-        const { token, author } = response.data;
-
-        // Dispatch login action with Redux
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("first_name", author.first_name);
-        dispatch(reduxLogin({ firstName: author.first_name }));
-
-        // Redirect to the home page or perform other actions on successful login
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then(() => {
         router.push("/");
-      } else {
-        setErrorMessage("Invalid login response");
-      }
-    } catch (error: unknown) {
-      console.error("Login error:", error);
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          setErrorMessage("Invalid email or password");
-        } else {
-          setErrorMessage("Something went wrong. Please try again.");
-        }
-      } else {
-        setErrorMessage("An unexpected error occurred.");
-      }
-    }
+      })
+      .catch((error) => {
+        setErrorMessage(error);
+      });
   };
 
   return (
@@ -130,8 +104,9 @@ function AuthForm() {
             <button
               type="submit"
               className="bg-gray-900 text-white tracking-widest py-2 px-4 w-full rounded hover:bg-gray-600"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
         </form>
